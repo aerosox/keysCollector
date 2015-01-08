@@ -15,7 +15,7 @@
            </select>
         </div>
         <div class="checkbox">
-           <label><input type="checkbox" id="includePortalWithoutKeys" name="includePortalWithoutKeys" /> Incluir portales sin llaves</label>
+           <label><input type="checkbox" id="includePortalWithoutKeys" name="includePortalWithoutKeys" /> Incluir portales sin llaves <small>(puede tardar unos segundos)</small></label>
         </div>
         <button type="button" class="btn btn-default" onclick="searchPortals()">Buscar</button>
       </form>
@@ -24,13 +24,13 @@
       <table id="tbKeys" class="table table-hover table-striped">
         <thead>
           <tr>
-            <th>
+            <th style="width:45%;">
               Portal
             </th>
             <th>
               Llaves (total)
             </th>
-            <th>
+            <th style="width:40%;">
               Acciones
             </th>
           </tr>
@@ -48,7 +48,7 @@ var tablePortals;
 $(document).ready(function() {
   tablePortals = $('#tbKeys').dataTable({
     sPaginationType: "full_numbers",
-    iDisplayLength: 100,
+    iDisplayLength: 50,
     aaSorting: [[0, 'desc']],
     sDom: '<"top"l>rt<"ikc-clear"><"bottom"ip><"ikc-clear">',
     language: {
@@ -79,7 +79,7 @@ function searchPortals() {
   io.socket.post('/portal/search', {portalName: portalName, agentName: agentName, includePortalWithoutKeys: keysFilter}, function (resData, jwres) {
     for (var i = 0; i < resData.length; i++) {
       var portalIntelLink = "<a target='_blank' href='"+resData[i].url+"'>Ver en Intel</a>";
-      var portalDetailsLInk = "<a href='/portal/"+resData[i].id+"/detail'>Ver detalles</a>";
+      var portalDetailsLInk = "<a target='_blank' href='/portal/"+resData[i].id+"/detail'>Ver detalles</a>";
       var actions = portalIntelLink + " - " + portalDetailsLInk;
 
       tablePortals.fnAddData([resData[i].title, resData[i].keysCount, actions]);
