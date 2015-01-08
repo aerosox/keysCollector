@@ -14,6 +14,9 @@
             <% } %>
            </select>
         </div>
+        <div class="checkbox">
+           <label><input type="checkbox" id="includePortalWithoutKeys" name="includePortalWithoutKeys" /> Incluir portales sin llaves</label>
+        </div>
         <button type="button" class="btn btn-default" onclick="searchPortals()">Buscar</button>
       </form>
     </div>
@@ -71,11 +74,12 @@ function searchPortals() {
 
   var portalName = $('#portalName').val();
   var agentName = $('#agentName').val();
+  var keysFilter = $('#includePortalWithoutKeys').is(':checked');
 
-  io.socket.post('/portal-search', {portalName: portalName, agentName: agentName}, function (resData, jwres) {
+  io.socket.post('/portal/search', {portalName: portalName, agentName: agentName, includePortalWithoutKeys: keysFilter}, function (resData, jwres) {
     for (var i = 0; i < resData.length; i++) {
       var portalIntelLink = "<a target='_blank' href='"+resData[i].url+"'>Ver en Intel</a>";
-      var portalDetailsLInk = "<a href='/portal/"+resData[i].id+"'>Ver detalles</a>";
+      var portalDetailsLInk = "<a href='/portal/"+resData[i].id+"/detail'>Ver detalles</a>";
       var actions = portalIntelLink + " - " + portalDetailsLInk;
 
       tablePortals.fnAddData([resData[i].title, resData[i].keysCount, actions]);

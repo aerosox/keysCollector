@@ -47,17 +47,17 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'GET /portal-search': {
+  'GET /portal/search': {
     controller: 'portal',
     action: 'searchView'
   }, 
 
-  'POST /portal-search': {
+  'POST /portal/search': {
     controller: 'portal',
     action: 'search'
   },
 
-  'GET /portal/:id': {
+  'GET /portal/:id/detail': {
     controller: 'portal',
     action: 'detail'
   }

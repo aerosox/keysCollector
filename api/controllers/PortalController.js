@@ -63,7 +63,17 @@ module.exports = {
       });
     
     } else {
-      Portal.find({title: {'contains': req.param('portalName')}}).exec(function (err, portals) {
+      var criteria = {
+        title: {
+          'contains': req.param('portalName')
+        }
+      };
+
+      if (!req.param('includePortalWithoutKeys')) {
+        criteria.keysCount = { '>': 0 };
+      }
+
+      Portal.find(criteria).exec(function (err, portals) {
         res.json(portals);
       });
     }
