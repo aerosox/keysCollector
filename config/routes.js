@@ -35,7 +35,7 @@ module.exports.routes = {
   '/': {
     controller: 'welcome',
     action: 'index'
-  }
+  },
 
   /***************************************************************************
   *                                                                          *
@@ -46,5 +46,15 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
+
+  'GET /portal-search': {
+    controller: 'portal',
+    action: 'searchView'
+  }, 
+
+  'POST /portal-search': {
+    controller: 'portal',
+    action: 'search'
+  }
 
 };

@@ -16,27 +16,20 @@ module.exports = {
     image: 'string',
     latE6: 'string',
     lngE6: 'string',
+    url: 'string',
+    keysCount: 'integer',
     keys: {
       collection: 'key',
       via: 'portal'
-    },
-
-    getURL: function () {
-      var lat = this.getLatitude();
-      var lng = this.getLongitude();
-
-      var url = "https://www.ingress.com/intel?ll="+lat+","+lng+"&z=17&pll="+lat+","+lng;
-      return url;
-    },
-
-    getLatitude: function () {
-      return this.latE6 / 1e6;
-    },
-
-    getLongitude: function () {
-      return this.lngE6 / 1e6;
     }
+  },
 
+  beforeCreate: function (values, next) {
+    var lat = values.latE6 / 1e6;
+    var lng = values.lngE6 / 1e6;
+    
+    values.url = "https://www.ingress.com/intel?ll="+lat+","+lng+"&z=17&pll="+lat+","+lng;
+    next();
   }
 };
 

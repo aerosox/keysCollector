@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-md-3 column">
+      <form role="form">
+        <div class="form-group">
+           <label for="portalName">Portal</label><input type="text" class="form-control" id="portalName" name="portalName" />
+        </div>
+        <div class="form-group">
+           <label for="agentName">Agente</label>
+           <select id="agentName" name="agentName" class="form-control">
+             <option value="0">Todos</option>
+             <% for (var i = 0; i < agents.length; i++) { %>
+               <option value="<%= agents[i].id %>"><%= agents[i].name %></option>
+            <% } %>
+           </select>
+        </div>
+        <button type="button" class="btn btn-default" onclick="searchPortals()">Buscar</button>
+      </form>
+    </div>
+    <div class="col-md-9 column">
+      <table id="tbKeys" class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>
+              Portal
+            </th>
+            <th>
+              Llaves (total)
+            </th>
+            <th>
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var tablePortals;
+
+$(document).ready(function() {
+  tablePortals = $('#tbKeys').dataTable({
+    sPaginationType: "full_numbers",
+    iDisplayLength: 100,
+    aaSorting: [[0, 'desc']],
+    sDom: '<"top"l>rt<"ikc-clear"><"bottom"ip><"ikc-clear">',
+    language: {
+            "lengthMenu": "Ver _MENU_ portales por página",
+            "zeroRecords": "No hay resultados",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay resultados",
+            "infoFiltered": "(filtrado de _MAX_ portales en total)",
+            "search": "Filtrar",
+            "paginate": {
+              "first":      "Primera",
+              "last":       "Última",
+              "next":       "Siguiente",
+              "previous":   "Anterior"
+            },
+        }
+  });
+});
+
+function searchPortals() {
+
+  tablePortals.fnClearTable();
+
+  var portalName = $('#portalName').val();
+  var agentName = $('#agentName').val();
+
+  io.socket.post('/portal-search', {portalName: portalName, agentName: agentName}, function (resData, jwres) {
+    for (var i = 0; i < resData.length; i++) {
+      var portalIntelLink = "<a target='_blank' href='"+resData[i].url+"'>Ver en Intel</a>";
+      var portalDetailsLInk = "<a href='/portal/"+resData[i].id+"'>Ver detalles</a>";
+      var actions = portalIntelLink + " - " + portalDetailsLInk;
+
+      tablePortals.fnAddData([resData[i].title, resData[i].keysCount, actions]);
+    }
+  });
+}
+</script>

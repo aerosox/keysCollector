@@ -18,6 +18,34 @@ module.exports = {
       type: 'integer',
       defaultsTo: 1
     }
+  },
+
+  afterCreate: function (values, next) {
+    Key.findOne({portal: values.portal}).groupBy('portal').sum('quantity').exec(function (err, keys) {
+      Portal.findOne(values.portal).exec(function (err, portal) {
+        portal.keysCount = keys.quantity;
+        portal.save();
+      });
+    });
+  },
+
+  afterDestroy: function (values, next) {
+    values = values.pop();
+    Key.findOne({portal: values.portal}).groupBy('portal').sum('quantity').exec(function (err, keys) {
+      Portal.findOne(values.portal).exec(function (err, portal) {
+        portal.keysCount = keys.quantity;
+        portal.save();
+      });
+    });
+  },
+
+  afterUpdate: function (values, next) {
+    Key.findOne({portal: values.portal}).groupBy('portal').sum('quantity').exec(function (err, keys) {
+      Portal.findOne(values.portal).exec(function (err, portal) {
+        portal.keysCount = keys.quantity;
+        portal.save();
+      });
+    });
   }
 };
 

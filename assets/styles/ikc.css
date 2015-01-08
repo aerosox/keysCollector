@@ -1,0 +1,20 @@
+a {
+  text-decoration: none !important;
+}
+
+.ikc-logo {
+  display: inline-block !important;
+  height: 23px;
+  position: relative;
+  top: -2px;
+}
+
+.ikc-footer {
+  display:block;
+  text-align:center;
+  float:none;
+}
+
+.ikc-clear {
+  min-height: 10px;
+}
