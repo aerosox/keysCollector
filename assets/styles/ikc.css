@@ -18,3 +18,12 @@ a {
 .ikc-clear {
   min-height: 10px;
 }
+
+.ikc-portal-image {
+  display: block !important;
+  margin: auto;
+}
+
+.ikc-container {
+  margin-bottom: 70px;
+}

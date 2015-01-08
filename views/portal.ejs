@@ -1,0 +1,38 @@
+<div class="container ikc-container">
+  <div class="row clearfix">
+    <div class="col-md-6 column">
+      <h3 class="text-muted"><%= portal.title %></h3>
+      <p>
+        <img src="<%= portal.image %>" class="img-thumbnail ikc-portal-image" />
+      </p>
+        <a href="<%= portal.url %>" target="_blank">Ver en intel</a>
+      <p>
+      </p>
+    </div>
+    <div class="col-md-6 column">
+      <h3 class="text-muted">
+        Detalle de las <%= portal.keysCount %> llaves
+      </h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Agente
+            </th>
+            <th>
+              Cantidad de llaves que posee
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 0; i < portal.keys.length; i++) { %>
+          <tr>
+            <td><%= agents[portal.keys[i].owner].agentName %></td>
+            <td><%= portal.keys[i].quantity %></td>
+          </tr>
+        <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

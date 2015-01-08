@@ -55,6 +55,11 @@ module.exports.routes = {
   'POST /portal-search': {
     controller: 'portal',
     action: 'search'
+  },
+
+  'GET /portal/:id': {
+    controller: 'portal',
+    action: 'detail'
   }
 
 };

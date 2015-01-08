@@ -6,6 +6,35 @@
  */
 
 module.exports = {
+
+  detail: function (req, res) {
+    var id = req.param("id");
+
+    Portal.findOne(id).populate('keys').exec(function (err, _portal) {
+      if (req.isSocket) {
+        res.json(_portal);
+      
+      } else {
+        var owners = [];
+        for (var i = 0; i < _portal.keys.length; i++) {
+          owner = _portal.keys[i].owner;
+          
+          if (owners.indexOf(owner) == -1) {
+            owners.push(owner);
+          }
+        }
+
+        User.find({'id': owners}).exec(function (err, _users) {
+          var _agents = {};
+          for (var i = 0; i < _users.length; i++) {
+            _agents[_users[i].id] = _users[i];
+          }
+          res.view('portal', {portal: _portal, agents: _agents});
+        });
+      }
+    });
+  },
+
   searchView: function (req, res) {
     var agents = [];
 
