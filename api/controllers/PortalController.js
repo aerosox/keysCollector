@@ -85,13 +85,13 @@ module.exports = {
     var gameEntities = []; // Insert here gameEntities objects
 
     for (var i = 0; i < gameEntities.length; i++) {
-      if (gameEntities[i][2].type == 'portal') {
+      if (gameEntities[i][2][0] == 'p') {
         var portal = {
           ingressId: gameEntities[i][0],
-          title: gameEntities[i][2].title,
-          image: gameEntities[i][2].image,
-          latE6: gameEntities[i][2].latE6,
-          lngE6: gameEntities[i][2].lngE6,
+          title: gameEntities[i][2][8],
+          image: gameEntities[i][2][7],
+          latE6: gameEntities[i][2][2],
+          lngE6: gameEntities[i][2][3],
           keysCount: 0
         };
         portals.push(portal);
