@@ -60,6 +60,16 @@ module.exports.routes = {
   'GET /portal/:id/detail': {
     controller: 'portal',
     action: 'detail'
+  },
+
+  'GET /portal/import': {
+    controller: 'portal',
+    action: 'importView'
+  },
+
+  'POST /portal/import': {
+    controller: 'portal',
+    action: 'import'
   }
 
 };
