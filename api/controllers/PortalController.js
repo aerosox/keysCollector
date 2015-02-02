@@ -79,27 +79,52 @@ module.exports = {
     }
   },
 
+  importView: function (req, res) {
+  	res.view('import');
+  },
+
   import: function (req, res) {
     var portals = [];
 
-    var gameEntities = []; // Insert here gameEntities objects
+    try {
+    	var gameEntities = JSON.parse(req.param("gameEntities"));
+    } catch(e) {
+    	var gameEntities = {};
+    	console.log('An error occured while parsing json.');
+    }
 
-    for (var i = 0; i < gameEntities.length; i++) {
-      if (gameEntities[i][2][0] == 'p') {
-        var portal = {
-          ingressId: gameEntities[i][0],
-          title: gameEntities[i][2][8],
-          image: gameEntities[i][2][7],
-          latE6: gameEntities[i][2][2],
-          lngE6: gameEntities[i][2][3],
-          keysCount: 0
-        };
-        portals.push(portal);
-      }
-    };
+    delete gameEntities.c;
+    delete gameEntities.b;
+
+    try {
+    	for (var key in gameEntities.result.map) {
+    		var mapGameEntities = gameEntities.result.map[key].gameEntities;
+
+    		for (var i = 0; i < mapGameEntities.length; i++) {
+    			if (mapGameEntities[i][2][0] == 'p') {
+			        var portal = {
+			          ingressId: mapGameEntities[i][0],
+			          title: mapGameEntities[i][2][8],
+			          image: mapGameEntities[i][2][7],
+			          latE6: mapGameEntities[i][2][2],
+			          lngE6: mapGameEntities[i][2][3],
+			          keysCount: 0
+			        };
+			        portals.push(portal);
+				}
+    		};
+	    };
+    } catch(e) {
+    	portals = [];
+    	console.log('An error occured while getting portals from json.');
+    }
+
+    delete gameEntities;
+    delete mapGameEntities;
 
     Portal.create(portals).exec(function (err, created) {
-      res.json({});
+        delete portals;
+        return res.redirect('/portal/search');
     });
   }
 };

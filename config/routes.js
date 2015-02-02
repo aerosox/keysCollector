@@ -64,6 +64,11 @@ module.exports.routes = {
 
   'GET /portal/import': {
     controller: 'portal',
+    action: 'importView'
+  },
+
+  'POST /portal/import': {
+    controller: 'portal',
     action: 'import'
   }
 
